@@ -1,5 +1,6 @@
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "./firebase";
+import client from "../feathers/feathers-client";
 
 function getFriendlyErrorMessage(code: string): string {
   switch (code) {
@@ -18,14 +19,32 @@ function getFriendlyErrorMessage(code: string): string {
   }
 }
 
-async function firebaseSignUp(email: string, password: string) {
+async function firebaseSignUp(
+  email: string,
+  password: string,
+  fullName: string
+) {
   try {
     const userCredential = await createUserWithEmailAndPassword(
       auth,
       email,
       password
     );
-    return userCredential.user;
+    const user = userCredential.user;
+
+    await updateProfile(user, {
+      displayName: fullName,
+    });
+
+    // 2️⃣ Firebase ID Token olish
+    const idToken = await user.getIdToken(true);
+    console.log(idToken);
+
+    // 3️⃣ Feathers backend authentication
+    const feathersRes = await client.authenticate({
+      strategy: "firebase",
+      accessToken: idToken,
+    });
   } catch (error: unknown) {
     if (typeof error === "object" && error !== null && "code" in error) {
       const code = (error as any).code;

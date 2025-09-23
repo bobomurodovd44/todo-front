@@ -38,9 +38,6 @@ async function firebaseLogin(email: string, password: string) {
       strategy: "firebase",
       accessToken: idToken,
     });
-
-    alert("User logged in: " + feathersRes.user.email);
-    return feathersRes.user;
   } catch (error: any) {
     if (error?.code) {
       alert(getFriendlyErrorMessage(error.code));
