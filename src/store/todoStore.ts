@@ -11,8 +11,6 @@ export interface Todo {
 
 interface TodoStore {
   todos: Todo[];
-  addTodo: (todo: Todo) => void;
-  updateTodo: (id: string, newText: string) => void;
   toggleTodo: (id: string) => void; // yangi toggle funksiyasi
   removeTodo: (id: string) => void;
   setTodos: (todos: Todo[]) => void;
@@ -20,17 +18,6 @@ interface TodoStore {
 
 const useTodoStore = create<TodoStore>((set) => ({
   todos: [],
-
-  addTodo: (todo) => set((state) => ({ todos: [...state.todos, todo] })),
-
-  updateTodo: (id, newText) =>
-    set((state) => ({
-      todos: state.todos.map((todo) =>
-        todo._id === id
-          ? { ...todo, text: newText, updatedAt: new Date() }
-          : todo
-      ),
-    })),
 
   toggleTodo: (id) =>
     set((state) => ({
