@@ -3,9 +3,9 @@
 import React, { useState } from "react";
 import { Form, Input, Button, Typography, Layout, Divider } from "antd";
 import Link from "next/link";
-import firebaseLogin from "@/lib/firebase/firebaseLogin"; // sizning login funksiyangiz
+import firebaseLogin from "@/src/services/firebase/firebaseLogin"; // sizning login funksiyangiz
 import { useRouter } from "next/navigation";
-import { signInWithGoogle } from "@/lib/firebase/firebaseGoogle";
+import { signInWithGoogle } from "@/src/services/firebase/firebaseGoogle";
 import { GoogleOutlined } from "@ant-design/icons";
 
 const LoginPage = () => {

@@ -3,10 +3,10 @@
 import React, { useState } from "react";
 import { Form, Input, Button, Typography, Layout, Divider } from "antd";
 import Link from "next/link";
-import firebaseSignUp from "@/lib/firebase/firebaseSignup";
+import firebaseSignUp from "@/src/services/firebase/firebaseSignup";
 import { useRouter } from "next/navigation";
 import { GoogleOutlined } from "@ant-design/icons";
-import { signInWithGoogle } from "@/lib/firebase/firebaseGoogle";
+import { signInWithGoogle } from "@/src/services/firebase/firebaseGoogle";
 
 const LoginPage = () => {
   const [form] = Form.useForm();

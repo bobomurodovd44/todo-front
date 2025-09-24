@@ -1,5 +1,5 @@
-import client from "@/lib/feathers/feathers-client";
-import useUserStore from "@/store/userStore";
+import client from "@/src/services/feathers/feathers-client";
+import useUserStore from "@/src/store/userStore";
 
 export const checkUser = async () => {
   try {
