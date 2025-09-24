@@ -14,7 +14,7 @@ client.configure(
     storage: {
       getItem: (key: string) => Cookies.get(key) || null,
       setItem: (key: string, value: string) => {
-        Cookies.set(key, value);
+        Cookies.set(key, value, { expires: 7 });
         return value;
       },
       removeItem: (key: string) => {
