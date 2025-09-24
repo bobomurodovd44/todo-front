@@ -1,13 +1,32 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { Form, Input, Button, Typography, Layout } from "antd";
 import Link from "next/link";
 import firebaseSignUp from "@/lib/firebase/firebaseSignup";
+import { useRouter } from "next/navigation";
 
 const LoginPage = () => {
   const [form] = Form.useForm();
   const { Content } = Layout;
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (values: {
+    email: string;
+    password: string;
+    full_name: string;
+  }) => {
+    setLoading(true);
+    try {
+      await firebaseSignUp(values.email, values.password, values.full_name);
+      router.push("/");
+    } catch (err) {
+    } finally {
+      setLoading(false);
+      form.resetFields();
+    }
+  };
 
   return (
     <Layout className="min-h-screen">
@@ -16,10 +35,7 @@ const LoginPage = () => {
           form={form}
           layout="vertical"
           className=" max-w-[400px] w-full"
-          onFinish={(values) => {
-            firebaseSignUp(values.email, values.password, values.full_name);
-            form.resetFields();
-          }}
+          onFinish={handleSubmit}
         >
           <Typography.Title level={3} className="text-center">
             Signup
@@ -63,8 +79,8 @@ const LoginPage = () => {
             <Input.Password placeholder="Password" />
           </Form.Item>
           <Form.Item>
-            <Button type="primary" block htmlType="submit">
-              Sign Up
+            <Button type="primary" disabled={loading} block htmlType="submit">
+              {loading ? "loading..." : "Sign Up"}
             </Button>
           </Form.Item>
           <Typography.Paragraph>

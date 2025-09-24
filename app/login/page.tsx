@@ -58,7 +58,7 @@ const LoginPage = () => {
 
           <Form.Item>
             <Button type="primary" disabled={loading} block htmlType="submit">
-              Log in
+              {loading ? "loading..." : "Log in"}
             </Button>
           </Form.Item>
 
