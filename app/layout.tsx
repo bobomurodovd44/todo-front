@@ -1,7 +1,5 @@
 "use client";
-import { ConfigProvider, theme } from "antd";
 import "@ant-design/v5-patch-for-react-19";
-import type { Metadata } from "next";
 import "antd/dist/reset.css";
 
 import "./globals.css";
@@ -20,13 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <ConfigProvider
-          theme={{
-            algorithm: theme.darkAlgorithm,
-          }}
-        >
-          <AntdRegistry>{children}</AntdRegistry>
-        </ConfigProvider>
+        <AntdRegistry>{children}</AntdRegistry>
       </body>
     </html>
   );

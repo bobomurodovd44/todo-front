@@ -1,24 +1,25 @@
 "use client";
 import client from "@/lib/feathers/feathers-client";
+import { checkUser } from "@/lib/functions/checkUser";
+import useUserStore from "@/store/userStore";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 const HomePage = () => {
   const [fullName, setFullName] = useState("");
+  const { user } = useUserStore();
   const router = useRouter();
   useEffect(() => {
-    const checkUser = async () => {
-      try {
-        const res = await client.reAuthenticate();
-        const user = res.user;
-        setFullName(user.fullName);
-      } catch (err) {
+    const authenticate = async () => {
+      const user = await checkUser();
+      if (!user) {
         router.push("/login");
       }
     };
-    checkUser();
+    authenticate();
   }, []);
-  return <div>{fullName}</div>;
+
+  return <div>{user?.fullName}</div>;
 };
 
 export default HomePage;
