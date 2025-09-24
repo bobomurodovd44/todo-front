@@ -19,7 +19,11 @@ const HomePage = () => {
     authenticate();
   }, []);
 
-  return <div>{user?.fullName}</div>;
+  return (
+    <div>
+      {user?.fullName} | {user?.email}
+    </div>
+  );
 };
 
 export default HomePage;

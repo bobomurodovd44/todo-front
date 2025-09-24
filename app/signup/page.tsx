@@ -1,10 +1,12 @@
 "use client";
 
 import React, { useState } from "react";
-import { Form, Input, Button, Typography, Layout } from "antd";
+import { Form, Input, Button, Typography, Layout, Divider } from "antd";
 import Link from "next/link";
 import firebaseSignUp from "@/lib/firebase/firebaseSignup";
 import { useRouter } from "next/navigation";
+import { GoogleOutlined } from "@ant-design/icons";
+import { signInWithGoogle } from "@/lib/firebase/firebaseGoogle";
 
 const LoginPage = () => {
   const [form] = Form.useForm();
@@ -25,6 +27,18 @@ const LoginPage = () => {
     } finally {
       setLoading(false);
       form.resetFields();
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    try {
+      setLoading(true);
+      await signInWithGoogle();
+      router.push("/");
+    } catch (err) {
+      console.error("Google login xatosi:", err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -81,6 +95,22 @@ const LoginPage = () => {
           <Form.Item>
             <Button type="primary" disabled={loading} block htmlType="submit">
               {loading ? "loading..." : "Sign Up"}
+            </Button>
+          </Form.Item>
+
+          <Divider size="large">or</Divider>
+
+          <Form.Item>
+            <Button
+              color="default"
+              variant="filled"
+              disabled={loading}
+              block
+              icon={<GoogleOutlined />}
+              onClick={handleGoogleLogin}
+              size="large"
+            >
+              Sign in with Google
             </Button>
           </Form.Item>
           <Typography.Paragraph>
