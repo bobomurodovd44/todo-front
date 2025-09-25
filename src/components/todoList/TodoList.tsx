@@ -5,10 +5,12 @@ import toggleTodo from "@/src/services/toggleTodo";
 import useTodoStore from "@/src/store/todoStore";
 import deleteTodo from "@/src/services/deleteTodo";
 import { DeleteOutlined } from "@ant-design/icons";
+import usePaginationStore from "@/src/store/todoPaginateStore";
 
 const TodoList = () => {
   const todos = useTodoStore((state) => state.todos);
   const [loading, setLoading] = useState(true);
+  const { skip, limit } = usePaginationStore();
 
   useEffect(() => {
     const getTodos = async () => {
@@ -17,7 +19,7 @@ const TodoList = () => {
       setLoading(false);
     };
     getTodos();
-  }, []);
+  }, [skip, limit]);
 
   if (loading) {
     return (
