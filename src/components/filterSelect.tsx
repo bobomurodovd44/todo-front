@@ -2,6 +2,7 @@
 
 import { Select } from "antd";
 import { useFilterStore } from "@/src/store/filterStore";
+import loadTodos from "../services/loadTodos";
 
 const { Option } = Select;
 
@@ -11,7 +12,10 @@ export default function FilterSelect() {
   return (
     <Select
       value={filter}
-      onChange={(value) => setFilter(value)}
+      onChange={async (value) => {
+        setFilter(value);
+        await loadTodos(true);
+      }}
       style={{ width: 200 }}
     >
       <Option value="all">All</Option>

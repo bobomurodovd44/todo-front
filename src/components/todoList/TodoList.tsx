@@ -21,7 +21,7 @@ const TodoList = () => {
       setLoading(false);
     };
     getTodos();
-  }, [skip, limit, filter]);
+  }, [skip, limit]);
 
   if (loading) {
     return (

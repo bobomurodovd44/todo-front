@@ -1,14 +1,13 @@
-// lib/loadTodos.ts
 import useTodoStore from "../store/todoStore";
 import usePaginationStore from "../store/todoPaginateStore";
 import { checkUser } from "./checkUser";
 import client from "./feathers/feathers-client";
 import { useFilterStore } from "../store/filterStore";
 
-const loadTodos = async () => {
+const loadTodos = async (resetPage = false) => {
   try {
     const user = await checkUser();
-    const { limit, skip, setTotal } = usePaginationStore.getState();
+    const { limit, skip, setSkip, setTotal } = usePaginationStore.getState();
     const { filter } = useFilterStore.getState();
 
     if (user) {
@@ -16,10 +15,9 @@ const loadTodos = async () => {
         createdBy: user._id,
         $sort: { createdAt: -1 },
         $limit: limit,
-        $skip: skip,
+        $skip: resetPage ? 0 : skip,
       };
 
-      // filterga qarab query qo‘shamiz
       const today = new Date();
       const todayStart = new Date(today.setHours(0, 0, 0, 0)).getTime();
       const todayEnd = new Date(today.setHours(23, 59, 59, 999)).getTime();
@@ -38,6 +36,10 @@ const loadTodos = async () => {
 
       useTodoStore.getState().setTodos(todos.data);
       setTotal(todos.total);
+
+      if (resetPage) {
+        setSkip(0);
+      }
     }
   } catch (err) {
     console.error(err);
