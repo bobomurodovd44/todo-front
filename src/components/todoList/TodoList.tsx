@@ -6,11 +6,13 @@ import useTodoStore from "@/src/store/todoStore";
 import deleteTodo from "@/src/services/deleteTodo";
 import { DeleteOutlined } from "@ant-design/icons";
 import usePaginationStore from "@/src/store/todoPaginateStore";
+import { useFilterStore } from "@/src/store/filterStore";
 
 const TodoList = () => {
   const todos = useTodoStore((state) => state.todos);
   const [loading, setLoading] = useState(true);
   const { skip, limit } = usePaginationStore();
+  const { filter } = useFilterStore();
 
   useEffect(() => {
     const getTodos = async () => {
@@ -19,7 +21,7 @@ const TodoList = () => {
       setLoading(false);
     };
     getTodos();
-  }, [skip, limit]);
+  }, [skip, limit, filter]);
 
   if (loading) {
     return (
